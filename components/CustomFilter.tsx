@@ -1,9 +1,72 @@
-import React from 'react'
+"use client";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { Fragment, useState } from "react";
 
-const CustomFIlter = () => {
+import { Listbox, Transition } from "@headlessui/react";
+import { CustomFilterProps } from "@/types";
+import { updateSearchParams } from "@/utils";
+const CustomFIlter = ({ title, options }: CustomFilterProps) => {
+  const [selected, setSelected] = useState(options[0]);
+  const router = useRouter();
+  const handleUpdateParams = (e: { title: string; value: string }) => {
+    const newPathname = updateSearchParams(title, e.value.toLowerCase());
+    router.push(newPathname, { scroll: false });
+  };
   return (
-    <div>CustomFIlter</div>
-  )
-}
+    <div className="w-fit mb-4">
+      <Listbox
+        value={selected}
+        onChange={(event) => {
+          setSelected(event);
+          handleUpdateParams(event);
+        }}
+      >
+        <div className="relative w-fit z-10 ">
+          <Listbox.Button className="custom-filter__btn ">
+            <span className="block truncate">{selected.title}</span>
+            <Image
+              src="/chevron-up-down.svg"
+              width={20}
+              height={20}
+              className="ml-4 object-contain"
+              alt="chevron up down"
+            />
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="ease-in duation-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="custom-filter__options">
+              {options.map((option) => (
+                <Listbox.Option
+                  key={option.title}
+                  className={({ active }) =>
+                    ` relative cursor-default select-none py-2 px-4 custom-filter__option ${
+                      active ? "bg-primary-blue text-white" : "text-gray-900"
+                    }`
+                  }
+                  value={option}
+                >
+                  {({ selected }) => (
+                    <span
+                      className={`block truncate ${
+                        selected ? "font-medium" : "font-normal"
+                      }  `}
+                    >
+                      {option.title}
+                    </span>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    </div>
+  );
+};
 
-export default CustomFIlter
+export default CustomFIlter;
