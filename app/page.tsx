@@ -5,8 +5,6 @@ import SearchBar from "@/components/SearchBar";
 import ShowMore from "@/components/ShowMore";
 import { fuels, yearsOfProduction } from "@/constants";
 import { fetchCars } from "@/utils";
-import Image from "next/image";
-import Link from "next/link";
 
 export default async function Home({searchParams}:any) {
   const allCars = await fetchCars({
@@ -20,7 +18,7 @@ export default async function Home({searchParams}:any) {
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
 
   return (
-    <main className="">
+    <main className="overflow-hidden">
       <Hero />
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
