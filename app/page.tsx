@@ -39,10 +39,10 @@ export default async function Home({searchParams}:any) {
           <section>
             <div className="home__ cars-wrapper">
               {allCars.map((car) => (
-                <CarCard car={car} />
+                <CarCard key={car.manufacturer} car={car} />
               ))}
             </div>
-            <ShowMore pageNumber={(searchParams.pageNumber || 10)/10} isNext={(searchParams.limit || 10)>allCars.length} />
+            <ShowMore pageNumber={(searchParams.limit || 10)/10} isNext={(searchParams.limit || 10)>allCars.length} />
           </section>
         ) : (
           <div className="home__error-container">

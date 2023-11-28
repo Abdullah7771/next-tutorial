@@ -46,3 +46,9 @@ export interface CustomFilterProps{
     value:string
     title:string
  }
+
+ export interface ShowMoreProps{
+  pageNumber:number
+  isNext:boolean
+  
+  }
